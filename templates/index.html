@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>威力彩 - 台灣彩券開獎號碼</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: #fafafa;
+            min-height: 100vh;
+            padding: 60px 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        h1 {
+            font-weight: 300;
+            font-size: 2em;
+            letter-spacing: 6px;
+            color: #222;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 0.85em;
+            color: #999;
+            margin-top: 8px;
+            letter-spacing: 2px;
+        }
+        
+        .lottery-section {
+            margin-bottom: 50px;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .lottery-title {
+            font-size: 0.75em;
+            font-weight: 500;
+            letter-spacing: 3px;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .area-label {
+            font-size: 0.7em;
+            color: #bbb;
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        
+        .balls-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .ball {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: 400;
+            background: #222;
+            color: #fff;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .ball::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 15px;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+        
+        .ball:hover {
+            transform: scale(1.15);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        
+        .ball.special {
+            width: 60px;
+            height: 60px;
+            font-size: 1.4em;
+            background: transparent;
+            border: 2px solid #222;
+            color: #222;
+            font-weight: 500;
+        }
+        
+        .ball.special::before {
+            display: none;
+        }
+        
+        .ball.special:hover {
+            background: #222;
+            color: #fff;
+        }
+        
+        .divider {
+            height: 60px;
+            width: 1px;
+            background: #eee;
+            margin: 0 15px;
+        }
+        
+        .info-note {
+            text-align: center;
+            padding: 20px;
+            background: #fff9e6;
+            border-left: 3px solid #f0ad4e;
+            margin: 30px 0;
+            font-size: 0.85em;
+            color: #666;
+            letter-spacing: 1px;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            letter-spacing: 1px;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+        
+        .badge-live {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-sample {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .refresh-btn {
+            display: block;
+            width: 160px;
+            margin: 50px auto;
+            padding: 14px 28px;
+            background: transparent;
+            color: #666;
+            border: 1px solid #ddd;
+            font-size: 0.8em;
+            letter-spacing: 2px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+        
+        .refresh-btn:hover {
+            background: #222;
+            color: #fff;
+            border-color: #222;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .error-message {
+            text-align: center;
+            padding: 60px 40px;
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        .error-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .error-text {
+            color: #999;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+        
+        footer p {
+            font-size: 0.7em;
+            color: #bbb;
+            letter-spacing: 1px;
+            line-height: 2;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.6em;
+                letter-spacing: 4px;
+            }
+            
+            .ball {
+                width: 44px;
+                height: 44px;
+                font-size: 1em;
+            }
+            
+            .ball.special {
+                width: 52px;
+                height: 52px;
+                font-size: 1.2em;
+            }
+            
+            .balls-row {
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>威力彩</h1>
+            <p class="subtitle">TAIWAN LOTTERY RESULTS</p>
+        </header>
+        
+        {% if data.success %}
+            <!-- Phần số chính (第一區) -->
+            <section class="lottery-section">
+                <h2 class="lottery-title">威力彩號碼大小順序</h2>
+                <p class="area-label">第一區 · 六個開獎號碼</p>
+                <div class="balls-row">
+                    {% for number in data.regular_numbers %}
+                    <div class="ball">{{ number }}</div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Phần số đặc biệt (第二區) -->
+                {% if data.special_number %}
+                <div class="divider" style="margin: 40px auto; width: 50px; height: 1px; background: #eee;"></div>
+                <p class="area-label">第二區 · 特別號</p>
+                <div class="balls-row">
+                    <div class="ball special">{{ data.special_number }}</div>
+                </div>
+                {% endif %}
+                
+                <!-- Badge nguồn dữ liệu -->
+                <div style="text-align: center;">
+                    {% if data.source == 'live' %}
+                    <span class="badge badge-live">即時資料</span>
+                    {% else %}
+                    <span class="badge badge-sample">測試資料</span>
+                    {% endif %}
+                </div>
+            </section>
+            
+            <!-- Thông báo nếu là dữ liệu mẫu -->
+            {% if data.note %}
+            <div class="info-note">
+                {{ data.note }}
+            </div>
+            {% endif %}
+            
+            <!-- Nút làm mới -->
+            <button class="refresh-btn" onclick="location.reload()">
+                重新整理
+            </button>
+            
+        {% else %}
+            <!-- Hiển thị lỗi -->
+            <div class="error-message">
+                <div class="error-icon">✕</div>
+                <p class="error-text">無法取得資料</p>
+                <p class="error-text" style="margin-top: 10px; font-size: 0.8em; color: #ccc;">
+                    {% if data.error %}{{ data.error }}{% else %}請稍後再試{% endif %}
+                </p>
+                <button class="refresh-btn" onclick="location.reload()" style="margin-top: 30px;">
+                    重試
+                </button>
+            </div>
+        {% endif %}
+        
+        <footer>
+            <p>資料來源：台灣彩券官方網站</p>
+            <p>TAIWAN LOTTERY OFFICIAL WEBSITE</p>
+        </footer>
+    </div>
+</body>
+</html>
